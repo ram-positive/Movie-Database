@@ -1,0 +1,75 @@
+<template>
+    <div class="main_page slds-box slds-theme_default">
+        <div class="page-header">
+            {label.Movies_DB_Header_Label}
+        </div>
+        <div class="form_page slds-box slds-theme_shade">
+            <lightning-record-edit-form
+                object-api-name={objectApiName}
+                onsubmit={handleSubmit}
+                onsuccess={handleSuccess}>
+                <div class="slds-grid slds-gutters movies-db-inp-fields">
+                    <div class="slds-col">
+                        <span><lightning-input-field field-name={fields.NAME_FIELD} required> </lightning-input-field></span>
+                    </div>
+                    <div class="slds-col">
+                        <span><lightning-input-field field-name={fields.GENRE_FIELD} required> </lightning-input-field></span>
+                    </div>
+                    <div class="slds-col">
+                        <span><lightning-input-field field-name={fields.RATING_FIELD} required> </lightning-input-field></span>
+                    </div>
+                    <div class="slds-col">
+                        <span><lightning-input-field field-name={fields.YEAR_FIELD} required> </lightning-input-field></span>
+                    </div>
+                    </div>
+                <div class="slds-var-m-top_medium slds-align_absolute-center">
+                    <lightning-button variant="brand" type="submit" label={label.Add_Movie_to_DB_Button_Label}>
+                    </lightning-button>
+                </div>
+            </lightning-record-edit-form>
+        </div>
+        <div class="table_page">
+            <div>
+                <div class="slds-grid slds-wrap filters">
+                    <div class="slds-col slds-size_3-of-12">
+                        <span>
+                            <lightning-combobox
+                                name="filter_fields"
+                                label={label.Filters_By_Selection_Label}
+                                value={defaultFilterValue}
+                                options={filterOptions}
+                                onchange={handleFilterSelect} >
+                            </lightning-combobox>
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12"><span></span></div>
+                    <div class="slds-col slds-size_3-of-12"><span></span></div>
+                    <div class="slds-col slds-size_3-of-12">
+                        <span>
+                            <lightning-input
+                                class="search-input-field"
+                                name="search"
+                                type="text"
+                                onchange={handleSearch}>
+                            </lightning-input>
+                        </span>
+                    </div>
+                </div>
+                <template if:true={recordsPresent}>
+                    <div class="table">
+                        <lightning-datatable
+                            key-field="id"
+                            data={moviesDBRecods}
+                            columns={columns}>
+                        </lightning-datatable>
+                    </div>
+                </template>
+                <template if:false={recordsPresent}>
+                    <p class="error-msg">
+                        {label.No_records_found_error_message}
+                    </p>
+                </template>
+            </div>    
+        </div>
+    </div>
+</template>
